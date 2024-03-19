@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes %s 1>&1 | FileCheck %s
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes %s 2>&1 | FileCheck %s
 
 // CHECK: Empty
 class Empty {};
@@ -30,8 +30,17 @@ class outerClass {
     };
 };
 
-// CHECK: TemplateClass
-template<typename T> class TemplateClass {
+// CHECK: TemplateClass1
+template<typename T> class TemplateClass1 {
     //CHECK-NEXT: Tvariable
     T Tvariable;
+};
+
+// CHECK: TemplateClass2
+template<typename T> class TemplateClass2 {
+    //CHECK-NEXT: Tvariable1
+    T Tvariable1;
+    //CHECK-NEXT: Tvariable2
+    static T Tvariable2;
+    TemplateClass2() {};
 };
