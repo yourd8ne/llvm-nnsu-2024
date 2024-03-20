@@ -40,6 +40,8 @@ template<typename T> class TemplateClass1 {
 template<typename T> class TemplateClass2 {
     //CHECK-NEXT: |_Tvariable1
     T Tvariable1;
+    //CHECK-NEXT: |_Tvariable2
+    static T Tvariable2;
     //CHECK-NEXT: |_TemplateClass2<T>
     TemplateClass2() {};
 };

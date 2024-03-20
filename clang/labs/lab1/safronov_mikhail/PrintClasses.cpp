@@ -6,22 +6,21 @@
 class PrintClassesVisitor
     : public clang::RecursiveASTVisitor<PrintClassesVisitor> {
 public:
+  bool VisitCXXRecordDecl(clang::CXXRecordDecl *decl) {
+    llvm::outs() << decl->getNameAsString() << "\n";
+
+    for (auto field : decl->fields()) {
+      llvm::outs() << "|_" << field->getNameAsString() << "\n";
+    }
+    return true;
+  }
+
   bool VisitCXXConstructorDecl(clang::CXXConstructorDecl *decl) {
     llvm::outs() << "|_" << decl->getNameAsString() << "\n";
     return true;
   }
   bool VisitVarDecl(clang::VarDecl *decl) {
     llvm::outs() << "|_" << decl->getNameAsString() << "\n";
-    return true;
-  }
-  bool VisitCXXRecordDecl(clang::CXXRecordDecl *decl) {
-    if (decl->isStruct() || decl->isClass()) {
-      llvm::outs() << decl->getNameAsString() << "\n";
-      for (auto field : decl->fields()) {
-        llvm::outs() << "|_" << field->getNameAsString() << "\n";
-      }
-      // llvm::outs() << "\n";
-    }
     return true;
   }
 };
