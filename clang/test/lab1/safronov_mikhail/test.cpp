@@ -32,15 +32,14 @@ class outerClass {
 
 // CHECK: TemplateClass1
 template<typename T> class TemplateClass1 {
-    //CHECK-NEXT: Tvariable
+    //CHECK-NEXT: |_Tvariable
     T Tvariable;
 };
 
 // CHECK: TemplateClass2
 template<typename T> class TemplateClass2 {
-    //CHECK-NEXT: Tvariable1
+    //CHECK-NEXT: |_Tvariable1
     T Tvariable1;
-    //CHECK-NEXT: Tvariable2
-    static T Tvariable2;
+    //CHECK-NEXT: |_TemplateClass2<T>
     TemplateClass2() {};
 };
