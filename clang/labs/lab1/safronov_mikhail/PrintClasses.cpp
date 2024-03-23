@@ -46,7 +46,9 @@ public:
 protected:
   bool ParseArgs(const clang::CompilerInstance &Compiler,
                  const std::vector<std::string> &args) override {
-
+    if(!args.empty() && args[0] == "--help") {
+      llvm::outs() << "Text\n";
+    }
     return true;
   }
 };
