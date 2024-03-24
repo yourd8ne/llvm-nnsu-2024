@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes --help %s 2>&1 | FileCheck %s
+// RUN: not %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes --help %s 2>&1 | FileCheck %s
 
 // CHECK: Empty
 class Empty {};
