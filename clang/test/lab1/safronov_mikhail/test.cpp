@@ -45,3 +45,6 @@ template<typename T> class TemplateClass2 {
     //CHECK-NEXT: |_TemplateClass2<T>
     TemplateClass2() {};
 };
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes -plugin-print-arg --help %s 1>&1 | FileCheck %s --check-prefix=HELP
+
+// HELP: Text
