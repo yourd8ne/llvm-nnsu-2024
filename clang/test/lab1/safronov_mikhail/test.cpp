@@ -46,6 +46,6 @@ template<typename T> class TemplateClass2 {
     TemplateClass2() {};
 };
 
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes -plugin-print-arg --help %s 1>&1 | FileCheck %s --check-prefix=HELP
+// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes --help %s 1>&1 | FileCheck %s --check-prefix=HELP
 
 // HELP: Text
