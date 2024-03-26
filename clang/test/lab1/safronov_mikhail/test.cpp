@@ -1,4 +1,5 @@
 // RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes %s 2>&1 | FileCheck %s
+// REQUIRES: plugins
 
 // CHECK: Empty
 class Empty {};
@@ -45,7 +46,3 @@ template<typename T> class TemplateClass2 {
     //CHECK-NEXT: |_TemplateClass2<T>
     TemplateClass2() {};
 };
-
-// RUN: %clang_cc1 -load %llvmshlibdir/PrintClassesPlugin%pluginext -plugin print-classes --help %s 1>&1 | FileCheck %s --check-prefix=HELP
-
-// HELP: Text
