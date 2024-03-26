@@ -48,8 +48,7 @@ protected:
                  const std::vector<std::string> &Args) override {
     for (const std::string &arg : Args) {
       if (arg == "--help") {
-        llvm::outs()
-            << "Help text";
+        llvm::outs() << "Help text";
       }
     }
     return true;
