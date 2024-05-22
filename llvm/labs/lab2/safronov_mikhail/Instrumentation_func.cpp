@@ -63,21 +63,22 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
   }
 };
 
-extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo llvmGetPassPluginInfo() {
+extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
+llvmGetPassPluginInfo() {
   llvm::errs() << "Loading InstrumentFunctions Plugin\n"; // Отладочный вывод
-  return {LLVM_PLUGIN_API_VERSION, "instr_func", "0.1",
-          [](llvm::PassBuilder &PB) {
-            PB.registerPipelineParsingCallback(
-                [](llvm::StringRef name, llvm::FunctionPassManager &FPM,
-                   llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
-                  if (name == "instr_func") {
-                    llvm::errs()
-                        << "Registering InstrumentFunctions Pass\n"; // Отладочный
-                                                                     // вывод
-                    FPM.addPass(InstrumentFunctions{});
-                    return true;
-                  }
-                  return false;
-                });
-          }};
+  return {
+      LLVM_PLUGIN_API_VERSION, "instr_func", "0.1", [](llvm::PassBuilder &PB) {
+        PB.registerPipelineParsingCallback(
+            [](llvm::StringRef name, llvm::FunctionPassManager &FPM,
+               llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
+              if (name == "instr_func") {
+                llvm::errs()
+                    << "Registering InstrumentFunctions Pass\n"; // Отладочный
+                                                                 // вывод
+                FPM.addPass(InstrumentFunctions{});
+                return true;
+              }
+              return false;
+            });
+      }};
 }
