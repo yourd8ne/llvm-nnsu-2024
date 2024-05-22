@@ -10,6 +10,25 @@ entry:
   ret void
 }
 
+; new test.cpp
+; void empty() {
+;     return;
+; }
+
+; int mult(int a) {
+;     return a * a;
+; }
+; 
+; int increment(int x) {
+;     return x + 1;
+; }
+
+; int complexFunction(int a, int b) {
+;     return c;
+; }
+
+; struct b {};
+
 define dso_local void @_Z5emptyv() #0 {
 entry:
   ret void
@@ -93,3 +112,5 @@ entry:
 ; CHECK-NEXT: %3 = load i32, ptr %c, align 4
 ; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %3
+
+; struct where these functions do not exist in .ll file
