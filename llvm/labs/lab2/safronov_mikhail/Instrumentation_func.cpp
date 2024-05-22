@@ -1,6 +1,5 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Instructions.h"
-//#include "llvm/IR/IRBuilder.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 #include "llvm/Support/raw_ostream.h"
@@ -32,6 +31,7 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
       if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(U)) {
         if (callInst->getFunction() == &func) {
           startInserted = true;
+          break;
         }
       }
     }
@@ -41,6 +41,7 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
       if (auto *callInst = llvm::dyn_cast<llvm::CallInst>(U)) {
         if (callInst->getFunction() == &func) {
           endInserted = true;
+          break;
         }
       }
     }
@@ -65,16 +66,12 @@ struct InstrumentFunctions : llvm::PassInfoMixin<InstrumentFunctions> {
 
 extern "C" LLVM_ATTRIBUTE_WEAK ::llvm::PassPluginLibraryInfo
 llvmGetPassPluginInfo() {
-  llvm::errs() << "Loading InstrumentFunctions Plugin\n"; // Отладочный вывод
   return {
       LLVM_PLUGIN_API_VERSION, "instr_func", "0.1", [](llvm::PassBuilder &PB) {
         PB.registerPipelineParsingCallback(
             [](llvm::StringRef name, llvm::FunctionPassManager &FPM,
                llvm::ArrayRef<llvm::PassBuilder::PipelineElement>) -> bool {
               if (name == "instr_func") {
-                llvm::errs()
-                    << "Registering InstrumentFunctions Pass\n"; // Отладочный
-                                                                 // вывод
                 FPM.addPass(InstrumentFunctions{});
                 return true;
               }
