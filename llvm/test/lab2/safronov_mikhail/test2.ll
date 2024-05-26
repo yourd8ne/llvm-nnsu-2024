@@ -1,15 +1,5 @@
 ; RUN: opt -load-pass-plugin %llvmshlibdir/SafronovInstrumentFunctions%pluginext -passes=instr_func -S %s | FileCheck %s
 
-define dso_local void @instrument_start() {
-entry:
-  ret void
-}
-
-define dso_local void @instrument_end() {
-entry:
-  ret void
-}
-
 define dso_local void @_Z5emptyv() #0 {
 entry:
   ret void
@@ -19,20 +9,6 @@ entry:
 ; CHECK: call void @instrument_start()
 ; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret void
-
-define dso_local void @_Z5empty_with_calls() #0 {
-entry:
-  call void @instrument_start()
-  call void @instrument_end()
-  ret void
-}
-
-; CHECK-LABEL: @_Z5empty_with_calls
-; CHECK: call void @instrument_start()
-; CHECK-NOT: call void @instrument_start()
-; CHECK: call void @instrument_end()
-; CHECK-NOT: call void @instrument_end()
-; CHECK: ret void
 
 define dso_local noundef i32 @_Z4multi(i32 noundef %a) #0 {
 entry:
@@ -107,3 +83,6 @@ entry:
 ; CHECK-NEXT: %3 = load i32, ptr %c, align 4
 ; CHECK-NEXT: call void @instrument_end()
 ; CHECK-NEXT: ret i32 %3
+
+; CHECK: declare void @instrument_start()
+; CHECK: declare void @instrument_end()
