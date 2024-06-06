@@ -67,7 +67,8 @@ public:
           MIB.addReg(MulInstr->getOperand(2).getReg());
           if (MulInstr->getOperand(0).getReg() == J->getOperand(1).getReg()) {
             MIB.addReg(AddInstr->getOperand(2).getReg());
-          } else if (MulInstr->getOperand(0).getReg() == J->getOperand(2).getReg()) {
+          } else if (MulInstr->getOperand(0).getReg() ==
+                     J->getOperand(2).getReg()) {
             MIB.addReg(AddInstr->getOperand(1).getReg());
           }
           if (!findInstruction(InstructionsToRemove, MulInstr)) {
@@ -76,7 +77,8 @@ public:
           if (!findInstruction(InstructionsToRemove, AddInstr)) {
             InstructionsToRemove.push_back(AddInstr);
           }
-          if (MulInstr->getOperand(0).getReg() == AddInstr->getOperand(0).getReg()) {
+          if (MulInstr->getOperand(0).getReg() ==
+              AddInstr->getOperand(0).getReg()) {
             break;
           }
           Changed = true;
@@ -92,7 +94,8 @@ public:
 private:
   bool findInstruction(std::vector<MachineInstr *> &InstructionsToRemove,
                        MachineInstr *Instruction) {
-    auto Result{std::find(begin(InstructionsToRemove), end(InstructionsToRemove), Instruction)};
+    auto Result{std::find(begin(InstructionsToRemove),
+                          end(InstructionsToRemove), Instruction)};
     return (Result != end(InstructionsToRemove));
   }
 };
